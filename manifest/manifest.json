@@ -1,14 +1,14 @@
 {
     "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
     "manifestVersion": "1.2",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "id": "a94a7276-467c-4229-bd59-b000d95eccf8",
     "packageName": "com.github.shyykoserhiy",
     "developer": {
         "name": "shyyko.serhiy",
-        "websiteUrl": "https://github.com/ShyykoSerhiy",
-        "privacyUrl": "https://github.com/ShyykoSerhiy",
-        "termsOfUseUrl": "https://github.com/ShyykoSerhiy"
+        "websiteUrl": "https://github.com/ShyykoSerhiy/spotify-teams",
+        "privacyUrl": "https://github.com/ShyykoSerhiy/spotify-teams",
+        "termsOfUseUrl": "https://github.com/ShyykoSerhiy/spotify-teams"
     },
     "icons": {
         "color": "color.png",
@@ -26,45 +26,18 @@
     "staticTabs": [{
         "entityId": "com.github.shyykoserhiy.hellotab",
         "name": "Hello Tab",
-        "contentUrl": "https://spotify-team.ngrok.io/hello",
+        "contentUrl": "https://spotify-teams.azurewebsites.net/hello",
         "scopes": [
             "personal"
         ]
     }],
     "configurableTabs": [{
-        "configurationUrl": "https://spotify-team.ngrok.io/configure",
+        "configurationUrl": "https://spotify-teams.azurewebsites.net/configure",
         "canUpdateConfiguration": true,
         "scopes": [
             "team"
         ]
     }],
-    "bots": [{
-        "botId": "a94a7276-467c-4229-bd59-b000d95eccf8",
-        "needsChannelSelector": false,
-        "isNotificationOnly": false,
-        "scopes": [
-            "team",
-            "personal"
-        ]
-    }],
-    "composeExtensions": [{
-        "botId": "a94a7276-467c-4229-bd59-b000d95eccf8",
-        "scopes": [
-            "personal",
-            "team"
-        ],
-        "commands": [{
-            "id": "getRandomText",
-            "description": "Gets some random text and images that you can insert in messages for fun.",
-            "title": "Get some random text for fun",
-            "initialRun": true,
-            "parameters": [{
-                "name": "cardTitle",
-                "description": "Card title to use",
-                "title": "Card title"
-            }]
-        }]
-    }],
     "permissions": [],
-    "validDomains": ["spotify-team.ngrok.io"]
+    "validDomains": ["spotify-teams.azurewebsites.net"]
 }

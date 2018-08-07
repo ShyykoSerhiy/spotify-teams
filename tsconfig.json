@@ -27,6 +27,7 @@
     "jest",
     "src/setupTests.ts",
     "gulpfile.js",
-    "server"
+    "server",
+    "index.js"
   ]
 }

@@ -125,4 +125,9 @@ app.get('/refresh_token', function (req, res) {
     });
 });
 
+app.get('*', (req, res, next) => {
+    //You can handle the request here
+    res.sendFile('index.html', { root: path.join(__dirname, '..', 'build') });
+});
+
 app.listen(process.env.PORT || 4000);

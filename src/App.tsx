@@ -35,7 +35,7 @@ class App extends React.Component {
         fontSize={this.state.fontSize}
         theme={this.state.theme}>
         <div className="App">
-          <Route exact={true} path="/" component={this.renderComponents('zzzz')} />
+          <Route exact={true} path="/" component={this.renderComponents()} />
           <Route path="/spotify" component={Spotify} />
           <Route path="/configure" component={Configure} />
         </div>
@@ -43,10 +43,10 @@ class App extends React.Component {
     );
   }
 
-  public renderComponents(text: string) {
+  public renderComponents() {
     return () => {
       return <p className="App-intro">
-        THIS IS SPARTA {text}
+        Spotify
       </p>
     }
   }

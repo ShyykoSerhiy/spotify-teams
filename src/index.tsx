@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from "react-router-dom";
-import App from './App';
+import App from './app';
 import { listenForCallback } from './callback';
 import './index.css';
 import { initializeTeams, notifyAuthenticationSuccess } from './teams/teams';

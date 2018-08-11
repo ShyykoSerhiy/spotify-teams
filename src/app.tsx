@@ -2,7 +2,7 @@ import * as microsoftTeams from '@microsoft/teams-js';
 import { TeamsComponentContext, ThemeStyle } from 'msteams-ui-components-react';
 import * as React from 'react';
 import { Route } from "react-router-dom";
-import './App.css';
+import './app.css';
 import { Configure } from './routes/configure';
 import { Spotify } from './routes/spotify';
 

@@ -28,6 +28,6 @@
     "src/setupTests.ts",
     "gulpfile.js",
     "server",
-    "index.js"
+    "app.js"
   ]
 }

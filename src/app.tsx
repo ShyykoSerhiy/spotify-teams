@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Route } from "react-router-dom";
 import './app.css';
 import { Configure } from './routes/configure';
+import { Main } from './routes/main';
 import { Spotify } from './routes/spotify';
 
 class App extends React.Component {
@@ -35,20 +36,12 @@ class App extends React.Component {
         fontSize={this.state.fontSize}
         theme={this.state.theme}>
         <div className="App">
-          <Route exact={true} path="/" component={this.renderComponents()} />
+          <Route exact={true} path="/" component={Main} />
           <Route path="/spotify" component={Spotify} />
           <Route path="/configure" component={Configure} />
         </div>
       </TeamsComponentContext>
     );
-  }
-
-  public renderComponents() {
-    return () => {
-      return <p className="App-intro">
-        Spotify
-      </p>
-    }
   }
 
   // Grabs the font size in pixels from the HTML element on your page.

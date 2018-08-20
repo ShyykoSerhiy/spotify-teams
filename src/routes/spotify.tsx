@@ -60,10 +60,6 @@ export class Spotify extends React.Component<any, ISpotifyState> {
                 return m;
             }, new Map<string, Track[]>())
             this.setState({ tracks });            
-            // tslint:disable-next-line:no-console
-            console.log(await this.api.playlists.tracks.getAll(playlists.items.find((p) => {
-                return p.name.startsWith('AllTime');
-            })!));
         });
     }
 

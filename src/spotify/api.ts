@@ -1,4 +1,4 @@
-import { Device, Playlist, Track } from "../state/state";
+import { Device, Playlist, Track, User } from "../state/state";
 
 export const apiUrl = 'https://api.spotify.com/v1/';
 export const GET = { 'method': 'GET' }
@@ -46,6 +46,13 @@ export const getApi = (token: string, refreshToken: string) => {
         throw new Error('Unknown error: status code' + response.status + ' ; ' + await response.text());
     }
     return {
+        me: {
+            get: async () => {
+                return makeRequest<User>('me', {
+                    ...GET, ...headers
+                });
+            }
+        },
         player: {
             devices: {
                 get: async () => {

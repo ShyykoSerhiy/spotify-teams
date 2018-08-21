@@ -1,9 +1,10 @@
-import { ConnectedComponent, IContext, IInjectedTeamsProps, Panel, PanelBody, PanelFooter, PanelHeader, Surface, Table, TBody, Th, THead, Tr } from 'msteams-ui-components-react';
+import { ConnectedComponent, IContext, IInjectedTeamsProps, Panel, PanelBody, PanelFooter, PanelHeader, Table, TBody, Th, THead, Tr } from 'msteams-ui-components-react';
 import * as React from 'react';
 import { style } from 'typestyle';
 import { listenForCallback } from '../callback';
 import { Api, getApi } from '../spotify/api';
-import { IStoreState, Playlist, Track } from '../state/state'
+import connect from '../state/connect';
+import { Device, IStoreState, Playlist, Track } from '../state/state'
 import Devices from './components/devices';
 import { PlaylistItem } from './components/playlist-item';
 import { TrackItem } from './components/track-item';
@@ -42,7 +43,7 @@ export function appLayout(context: IContext) {
 }
 
 
-export class Spotify extends React.Component<any, ISpotifyState> {
+export class Spotify extends React.Component<{ selectedDevice: Device }, ISpotifyState> {
     private api: Api
 
     constructor(props: any) {
@@ -105,7 +106,7 @@ export class Spotify extends React.Component<any, ISpotifyState> {
         });
 
         return (
-            <Surface className={classes.container}>
+            <div className={classes.container}>
                 <div>
                     <Devices />
                 </div>
@@ -141,23 +142,29 @@ export class Spotify extends React.Component<any, ISpotifyState> {
                         </div>
                     </div>
                 </div>
-            </Surface>
+            </div>
         );
     }
 
     private onPlaylistClick = (p: Playlist) => {
-        // tslint:disable-next-line:no-debugger
         this.setState({ selectedPlaylistId: p.id });
     }
 
     private onTrackClick = (t: Track, index: number) => {
-        // tslint:disable-next-line:no-debugger
         this.setState({ selectedTrackId: t.track.id });
+
+        const { selectedDevice } = this.props;
 
         this.api.player.play.put({
             albumUri: this.state.playlists.find((p) => p.id === this.state.selectedPlaylistId)!.uri,
-            offset: index
+            offset: index,
+            ...(selectedDevice ? { deviceId: selectedDevice.id } : {})
         });
     }
 
 }
+
+
+export default connect(({ selectedDevice }) => {
+    return { selectedDevice };
+}, void 0)(Spotify);

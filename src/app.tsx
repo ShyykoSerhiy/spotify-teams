@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import './app.css';
 import Configure from './routes/configure';
 import { Main } from './routes/main';
-import { Spotify } from './routes/spotify';
+import Spotify from './routes/spotify';
 
 class App extends React.Component {
   public state = {

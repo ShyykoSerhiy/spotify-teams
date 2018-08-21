@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from './app';
 import { ITokens, listenForCallback } from './callback';
 import './index.css';
-import { loadUser, provideApi, setAuthInfo } from './state/actions';
+import { loadDevices, loadUser, provideApi, setAuthInfo } from './state/actions';
 import { createSpotifyStore } from './state/state';
 import { initializeTeams, notifyAuthenticationSuccess, setOnAuthTokenCallback } from './teams/teams';
 
@@ -27,6 +27,7 @@ const updateToken = (token: ITokens) => {
   provideApi(token.token, token.refreshToken);
   store.dispatch(setAuthInfo(token.token, token.refreshToken));
   store.dispatch(loadUser() as any);
+  store.dispatch(loadDevices() as any);
 }
 setOnAuthTokenCallback(updateToken)
 listenForCallback().then((token) => {

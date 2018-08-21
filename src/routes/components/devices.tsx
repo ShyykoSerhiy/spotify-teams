@@ -1,15 +1,30 @@
-import { ConnectedComponent, IInjectedTeamsProps, Surface } from 'msteams-ui-components-react';
+import { ConnectedComponent, Dropdown, IInjectedTeamsProps } from 'msteams-ui-components-react';
 import * as React from 'react';
+import { style } from 'typestyle';
+import { selectDevice } from '../../state/actions';
 import connect from '../../state/connect';
-import { User } from '../../state/state';
+import { Device } from '../../state/state';
 import Main from '../main';
 
-export interface IMainProps {
-    user: User
+export interface IDevicesProps {
+    devices: Device[],
+    selectedDevice: Device,
+
+    selectDevice: typeof selectDevice
 }
 
-export class Devices extends React.Component<IMainProps, {}> {
+export function appLayout() {
+    return {
+        container: style({
+            display: 'flex',
+            alignItems: 'center'
+        })
+    };
+}
 
+const classes = appLayout();
+
+export class Devices extends React.Component<IDevicesProps, {}> {
     constructor(props: any) {
         super(props);
     }
@@ -18,15 +33,33 @@ export class Devices extends React.Component<IMainProps, {}> {
         return <ConnectedComponent render={this.renderMain} />
     }
 
+    private onDeviceClick = (device: Device) => {        
+        this.props.selectDevice(device);
+    }
+
     private renderMain = (props: IInjectedTeamsProps) => {
+        const items = (this.props.devices || []).map((d) => {
+            return {
+                text: d.name,
+                id: d.id,
+                onClick: () => {
+                    this.onDeviceClick(d);
+                }
+            }
+        });
+        const selectedDeviceName = this.props.selectedDevice ? this.props.selectedDevice.name : 'No devices';
         return (
-            <Surface>
+            <div className={classes.container}>
                 <Main />
-            </Surface>
+                <Dropdown disabled={!items.length}
+                    mainButtonText={selectedDeviceName}
+                    items={items}
+                />
+            </div>
         );
     }
 }
 
-export default connect(({ user }) => {
-    return { user };
-}, void 0)(Devices);
+export default connect(({ devices, selectedDevice }) => {
+    return { devices, selectedDevice };
+}, { selectDevice })(Devices);

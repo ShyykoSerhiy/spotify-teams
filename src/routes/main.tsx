@@ -1,4 +1,4 @@
-import { ConnectedComponent, IInjectedTeamsProps, Surface } from 'msteams-ui-components-react';
+import { ConnectedComponent, IInjectedTeamsProps } from 'msteams-ui-components-react';
 import { IPersonaSharedProps, Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
 import * as React from 'react';
 import connect from '../state/connect';
@@ -35,9 +35,7 @@ export class Main extends React.Component<IMainProps, {}> {
         };
 
         return (
-            <Surface>
-                <Persona {...persona} />
-            </Surface>
+            <Persona {...persona} />
         );
     }
 }

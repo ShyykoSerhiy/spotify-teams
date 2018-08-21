@@ -106,9 +106,10 @@ export interface IStoreState {
     devices: Device[],
     playlists: Playlist[]
     refreshToken: string,
+    selectedDevice?: Device,
     token: string,
-    tracks: Map<string, Track[]>
-    user?: User
+    tracks: Map<string, Track[]>,
+    user?: User    
 }
 
 export const createSpotifyStore = () => {
@@ -116,8 +117,9 @@ export const createSpotifyStore = () => {
         devices: [],
         playlists: [],
         refreshToken: '',
+        selectedDevice: void 0,        
         token: '',
         tracks: new Map(),
-        user: void 0
+        user: void 0,        
     }, applyMiddleware(thunk));
 }

@@ -1,8 +1,10 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { Api, getApi } from '../../spotify/api';
-import { User } from '../state';
+import { Device, User } from '../state';
 export const SET_AUTH_INFO = 'SET_AUTH_INFO' as 'SET_AUTH_INFO';
 export const LOAD_USER = 'LOAD_USER' as 'LOAD_USER';
+export const LOAD_DEVICES = 'LOAD_DEVICES' as 'LOAD_DEVICES';
+export const SELECT_DEVICE = 'SELECT_DEVICE' as 'SELECT_DEVICE';
 
 let api: Api | null = null;
 export const provideApi = (token: string, refreshToken: string) => {
@@ -20,7 +22,17 @@ export interface ILoadUserAction {
     user: User
 }
 
-export type Action = ISetAuthInfoAction | ILoadUserAction;
+export interface ILoadDevicesAction {
+    type: typeof LOAD_DEVICES
+    devices: Device[]
+}
+
+export interface ISelectDeviceAction {
+    type: typeof SELECT_DEVICE
+    device: Device
+}
+
+export type Action = ISetAuthInfoAction | ILoadUserAction | ILoadDevicesAction | ISelectDeviceAction;
 
 export function setAuthInfo(token: string, refreshToken: string): ISetAuthInfoAction {
     return {
@@ -41,9 +53,31 @@ export function loadUser() {
     };
 }
 
+export function loadDevices() {
+    return async (dispatch: ThunkDispatch<any, any, any>) => {
+        if (!api) {
+            return;
+        }
+        const devices = (await api.player.devices.get()).devices;
+        dispatch({
+            type: LOAD_DEVICES,
+            devices
+        } as ILoadDevicesAction);
+    };
+}
+
+export function selectDevice(device: Device): ISelectDeviceAction {
+    return {
+        type: SELECT_DEVICE,
+        device
+    }
+}
+
 const actionCreators = {
     loadUser,
-    setAuthInfo
+    setAuthInfo,
+    loadDevices,
+    selectDevice
 };
 
 export type ActionCreators = typeof actionCreators;

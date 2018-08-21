@@ -1,6 +1,6 @@
 {
   "name": "spotify-teams",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "private": true,
   "proxy": {
     "/login": {
@@ -37,7 +37,7 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "start-server": "node ./server/index.js",
-    "build": "react-scripts-ts build",
+    "build": "react-scripts-ts build && yarn gulp",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },

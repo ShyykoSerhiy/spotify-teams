@@ -3,7 +3,8 @@ import * as React from 'react';
 
 export interface ISelectableItemProps<T> {
     p: T
-    onClick: (p: T) => void
+    index: number,
+    onClick: (p: T, index: number) => void
     selected: boolean,
     context: IContext
 }
@@ -35,6 +36,6 @@ export abstract class SelectableItem<T> extends React.Component<ISelectableItemP
     public abstract renderItem(selectedStyle: { backgroundColor?: string }): JSX.Element;
 
     protected onClick = () => {
-        this.props.onClick(this.props.p);
+        this.props.onClick(this.props.p, this.props.index);
     }
 };

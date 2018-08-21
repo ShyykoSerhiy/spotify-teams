@@ -88,13 +88,13 @@ export class Spotify extends React.Component<any, ISpotifyState> {
             </Panel>
         }
 
-        const playlists = this.state.playlists.map((p) => {
-            return <PlaylistItem key={p.id} p={p} context={context}
+        const playlists = this.state.playlists.map((p, index) => {
+            return <PlaylistItem key={p.id} p={p} index={index} context={context}
                 selected={this.state.selectedPlaylistId === p.id} onClick={this.onPlaylistClick} />
         });
 
-        const tracks = ((this.state.tracks && this.state.tracks.get(this.state.selectedPlaylistId)) || []).map((p) => {
-            return <TrackItem key={p.track.id} p={p} context={context}
+        const tracks = ((this.state.tracks && this.state.tracks.get(this.state.selectedPlaylistId)) || []).map((p, index) => {
+            return <TrackItem key={p.track.id + index} p={p} index={index} context={context}
                 selected={this.state.selectedTrackId === p.track.id} onClick={this.onTrackClick} />
         });
 
@@ -139,14 +139,14 @@ export class Spotify extends React.Component<any, ISpotifyState> {
         this.setState({ selectedPlaylistId: p.id });
     }
 
-    private onTrackClick = (t: Track) => {
+    private onTrackClick = (t: Track, index: number) => {
         // tslint:disable-next-line:no-debugger
         this.setState({ selectedTrackId: t.track.id });
 
-        this.api.player.play.put(
-            t.track.uri,
-            this.state.playlists.find((p) => p.id === this.state.selectedPlaylistId)!.uri
-        );
+        this.api.player.play.put({
+            albumUri: this.state.playlists.find((p) => p.id === this.state.selectedPlaylistId)!.uri,
+            offset: index
+        });
     }
 
 }

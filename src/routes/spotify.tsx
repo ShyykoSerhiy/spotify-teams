@@ -35,6 +35,7 @@ export function appLayout(context: IContext) {
     };
 }
 
+
 export class Spotify extends React.Component<any, ISpotifyState> {
     private api: Api
 

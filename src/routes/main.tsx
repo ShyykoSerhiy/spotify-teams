@@ -1,36 +1,25 @@
 import { ConnectedComponent, IInjectedTeamsProps, Surface } from 'msteams-ui-components-react';
 import { IPersonaSharedProps, Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
 import * as React from 'react';
-import { listenForCallback } from '../callback';
-import { Api, getApi } from '../spotify/api';
+import connect from '../state/connect';
 import { User } from '../state/state';
 
-export interface IMainState {
+export interface IMainProps {
     user: User
 }
 
-export class Main extends React.Component<any, IMainState> {
-    private api: Api
+export class Main extends React.Component<IMainProps, {}> {
 
     constructor(props: any) {
         super(props);
-        this.state = {} as any as IMainState
     }
 
     public render() {
         return <ConnectedComponent render={this.renderMain} />
     }
 
-    public componentDidMount() {
-        listenForCallback().then(async (token) => {
-            this.api = getApi(token.token, token.refreshToken);
-            const user = await this.api.me.get();
-            this.setState({ user });
-        });
-    }
-
-    private renderMain = (props: IInjectedTeamsProps) => {                                
-        const { user } = this.state;
+    private renderMain = (props: IInjectedTeamsProps) => {
+        const { user } = this.props;
         if (!user) {
             return <div>
                 Spotify
@@ -52,3 +41,7 @@ export class Main extends React.Component<any, IMainState> {
         );
     }
 }
+
+export default connect(({ user }) => {
+    return { user };
+}, void 0)(Main);

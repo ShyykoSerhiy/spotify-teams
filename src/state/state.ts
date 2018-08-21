@@ -1,3 +1,8 @@
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import { reducer } from './reducers';
+
+
 export const deviceExample = {
     "id": "5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e",
     "is_active": false,
@@ -64,7 +69,7 @@ export const trackExample = {
         "name": "That Dress",
         "uri": "spotify:track:4I9qjUCx8jFQkFFi5Eyt5x"
     }
-}; 
+};
 
 export const userExample = {
     "birthdate": "1937-06-01",
@@ -100,5 +105,19 @@ export type User = typeof userExample;
 export interface IStoreState {
     devices: Device[],
     playlists: Playlist[]
+    refreshToken: string,
+    token: string,
     tracks: Map<string, Track[]>
+    user?: User
+}
+
+export const createSpotifyStore = () => {
+    return createStore(reducer, {
+        devices: [],
+        playlists: [],
+        refreshToken: '',
+        token: '',
+        tracks: new Map(),
+        user: void 0
+    }, applyMiddleware(thunk));
 }

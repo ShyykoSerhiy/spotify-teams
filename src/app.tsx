@@ -3,7 +3,7 @@ import { TeamsComponentContext, ThemeStyle } from 'msteams-ui-components-react';
 import * as React from 'react';
 import { Route } from "react-router-dom";
 import './app.css';
-import { Configure } from './routes/configure';
+import Configure from './routes/configure';
 import { Main } from './routes/main';
 import { Spotify } from './routes/spotify';
 

@@ -28,11 +28,19 @@ export const initializeTeams = () => {
     });
 };
 
-export const validateSettingsState = (tokens: { refreshToken: string, token: string }) => {
+let onAuthTokenCallback = (iTokens: ITokens) => {/* void */ };
+export const setOnAuthTokenCallback = (onAuthTokenCallbackValue: typeof onAuthTokenCallback) => {
+    onAuthTokenCallback = onAuthTokenCallbackValue;
+}
+
+export const validateSettingsState = (tokens: ITokens) => {
     // This API tells Microsoft Teams to enable the 'Save' button. Since Microsoft Teams always assumes
     // an initial invalid state, without this call the 'Save' button will never be enabled.
-    spotifyToken = tokens.token || '';
-    spotifyRefreshToken = tokens.refreshToken || '';
+    spotifyToken = (tokens && tokens.token) || '';
+    spotifyRefreshToken = (tokens && tokens.refreshToken) || '';
+    if (spotifyToken && spotifyRefreshToken) {
+        onAuthTokenCallback(tokens);
+    }
     microsoftTeams.settings.setValidityState(!!spotifyToken && !!spotifyRefreshToken);
 }
 

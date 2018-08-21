@@ -4,6 +4,7 @@ import { style } from 'typestyle';
 import { listenForCallback } from '../callback';
 import { Api, getApi } from '../spotify/api';
 import { IStoreState, Playlist, Track } from '../state/state'
+import Devices from './components/devices';
 import { PlaylistItem } from './components/playlist-item';
 import { TrackItem } from './components/track-item';
 
@@ -18,6 +19,7 @@ export function appLayout(context: IContext) {
     return {
         container: style({
             display: 'flex',
+            flexDirection: 'column',
             height: '100vh',
         }),
         main: style({
@@ -25,6 +27,10 @@ export function appLayout(context: IContext) {
             height: '100%',
             marginLeft: rem(0.2),
             overflow: 'auto',
+        }),
+        playlist: style({
+            display: 'flex',
+            height: '100vh'
         }),
         sidebar: style({
             flex: `0 0 ${rem(25.0)}`,
@@ -49,7 +55,7 @@ export class Spotify extends React.Component<any, ISpotifyState> {
     }
 
     public componentDidMount() {
-        listenForCallback().then(async (token) => {            
+        listenForCallback().then(async (token) => {
             this.api = getApi(token.token, token.refreshToken);;
             const playlists = await this.api.playlists.get();
             this.setState({ playlists: playlists.items });
@@ -60,7 +66,7 @@ export class Spotify extends React.Component<any, ISpotifyState> {
                 m.set(tr.p.id, tr.t);
                 return m;
             }, new Map<string, Track[]>())
-            this.setState({ tracks });            
+            this.setState({ tracks });
         });
     }
 
@@ -74,7 +80,7 @@ export class Spotify extends React.Component<any, ISpotifyState> {
             header: { ...sizes.title, ...weights.semibold },
             playlist: { maxwWidth: rem(5), textOverflow: 'ellipsis' },
             section: { ...sizes.title2, marginTop: rem(1.4), marginBottom: rem(1.4), display: 'flex' },
-            tracks: { width: rem(50) }
+            tracks: { width: 'calc(100% - 6px)' }
         };
         if (!this.state.playlists) {
             return <Panel>
@@ -100,34 +106,39 @@ export class Spotify extends React.Component<any, ISpotifyState> {
 
         return (
             <Surface className={classes.container}>
-                <div className={classes.sidebar}>
-                    <div>
-                        <Table style={styles.playlist}>
-                            <THead>
-                                <Tr>
-                                    <Th >Playlists</Th>
-                                </Tr>
-                            </THead>
-                            <TBody>
-                                {playlists}
-                            </TBody>
-                        </Table>
-                    </div>
+                <div>
+                    <Devices />
                 </div>
-                <div className={classes.main}>
-                    <div>
-                        {tracks.length ? <Table style={{ ...styles.tracks, marginLeft: '2px' }}>
-                            <THead>
-                                <Tr>
-                                    <Th>Title</Th>
-                                    <Th>Artist</Th>
-                                    <Th>Album</Th>
-                                </Tr>
-                            </THead>
-                            <TBody>
-                                {tracks}
-                            </TBody>
-                        </Table> : void 0}
+                <div className={classes.playlist}>
+                    <div className={classes.sidebar}>
+                        <div>
+                            <Table style={styles.playlist}>
+                                <THead>
+                                    <Tr>
+                                        <Th >Playlists</Th>
+                                    </Tr>
+                                </THead>
+                                <TBody>
+                                    {playlists}
+                                </TBody>
+                            </Table>
+                        </div>
+                    </div>
+                    <div className={classes.main}>
+                        <div>
+                            {tracks.length ? <Table style={{ ...styles.tracks, marginLeft: '2px' }}>
+                                <THead>
+                                    <Tr>
+                                        <Th>Title</Th>
+                                        <Th>Artist</Th>
+                                        <Th>Album</Th>
+                                    </Tr>
+                                </THead>
+                                <TBody>
+                                    {tracks}
+                                </TBody>
+                            </Table> : void 0}
+                        </div>
                     </div>
                 </div>
             </Surface>
